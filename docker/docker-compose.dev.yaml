@@ -1,0 +1,33 @@
+---
+version: '3.8'
+services:
+  django:
+    volumes:
+      - ../:/myapp:z
+    environment:
+      DEBUG: ${DEBUG}
+    command: python manage_dev.py runserver 0.0.0.0:8000
+    ports:
+      - 3000:3000
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      - database
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${DATABASE_USER}@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "5050:80"
+    volumes:
+      - data-pgadmin:/var/lib/pgadmin
+
+volumes:
+  data-pgadmin: {}
+
+
+
+
+
